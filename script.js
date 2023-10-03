@@ -27,6 +27,11 @@ var zero = document.getElementsByName("zero")[0];
 
 var point = document.getElementsByName("point")[0];
 
+const shekelsToUSD = 0.28;
+const usdToShekels = 3.6;
+const shekelsToEuros = 0.24;
+const eurosToShekels = 4.2;
+
 function putNumbers(num) {
   if (operation.value !== "") {
     number2.value += num;
@@ -38,18 +43,73 @@ function putNumbers(num) {
   console.log(number1.value);
 }
 
-function clearFileds() {
+function clearFields() {
   number1.value = "";
   number2.value = "";
   operation.value = "";
+  
 }
 
+function convertShekelsToUSD() {
+  const amountInShekels = parseFloat(number1.value);
+  if (!isNaN(amountInShekels)) {
+    result.value = (amountInShekels * shekelsToUSD).toFixed(2);
+    clearFields();
+  }else {
+    alert("Please enter valid number.");
+  }
+}
 
-inputs.forEach(input => {
-    input.addEventListener("focus", function () {
-        // Remove focus from all inputs except the current one
-        inputs.forEach(i => i !== this && i.blur());
-    });
+function convertUSDToShekels() {
+  const amountInUSD = parseFloat(number1.value);
+  if (!isNaN(amountInUSD)) {
+    result.value = (amountInUSD * usdToShekels).toFixed(2);
+    clearFields();
+  } else {
+    alert("Please enter valid number.");
+  }
+}
+
+function convertShekelsToEuros() {
+  const amountInShekels = parseFloat(number1.value);
+  if (!isNaN(amountInShekels)) {
+    result.value = (amountInShekels * shekelsToEuros).toFixed(2);
+    clearFields();
+  }else {
+    alert("Please enter valid number.");
+  }
+}
+
+function convertEurosToShekels() {
+  const amountInEuros = parseFloat(number1.value);
+  if (!isNaN(amountInEuros)) {
+    result.value = (amountInEuros * eurosToShekels).toFixed(2);
+    clearFields();
+  }else {
+    alert("Please enter valid number.");
+  }
+}
+
+document.getElementsByName("STOD")[0].addEventListener("click", function () {
+  convertShekelsToUSD();
+});
+
+document.getElementsByName("DTOS")[0].addEventListener("click", function () {
+  convertUSDToShekels();
+});
+
+document.getElementsByName("STOE")[0].addEventListener("click", function () {
+  convertShekelsToEuros();
+});
+
+document.getElementsByName("ETOS")[0].addEventListener("click", function () {
+  convertEurosToShekels();
+});
+
+inputs.forEach((input) => {
+  input.addEventListener("focus", function () {
+    inputs.forEach((i) => i !== this && i.blur());
+  });
 });
 
 add.addEventListener("click", function () {
@@ -108,7 +168,9 @@ point.addEventListener("click", function () {
 AD.addEventListener(
   "click",
   function () {
-    clearFileds();
+    clearFields();
+    operation.value = "";
+    result.value="";
   },
   false
 );
@@ -119,22 +181,22 @@ equal.addEventListener("click", function () {
     switch (operation.value) {
       case "+":
         result.value = parseFloat(number1.value) + parseFloat(number2.value);
-        clearFileds();
+        clearFields();
         break;
       case "-":
         result.value = parseFloat(number1.value) - parseFloat(number2.value);
-        clearFileds();
+        clearFields();
         break;
       case "*":
         result.value = parseFloat(number1.value) * parseFloat(number2.value);
-        clearFileds();
+        clearFields();
         break;
       case "/":
         if (parseFloat(number2.value) === 0) {
           alert("Cannot divide by zero");
         } else {
           result.value = parseFloat(number1.value) / parseFloat(number2.value);
-          clearFileds();
+          clearFields();
         }
         break;
       default:
